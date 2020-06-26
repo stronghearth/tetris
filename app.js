@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
+    const displaySquares = document.querySelectorAll('.previous-grid div')
     let squares = Array.from(grid.querySelectorAll('div'))
     const width = 10 
     const height = 20
@@ -112,5 +113,28 @@ document.addEventListener('DOMContentLoaded', () => {
       draw()
   }
 
-  draw()
+  //show previous tetrimino in displaySquares
+
+  const displayWidth = 4
+  const displayIndex = 0
+  let nextRandom = 0
+
+  const smallTetriminos = [
+      [1, displayWidth+1, displayWidth*2+1, 2],
+      [0, displayWidth, displayWidth+1, displayWidth*2+1],
+      [1, displayWidth, displayWidth+1, displayWidth+2],
+      [0, 1, displayWidth, displayWidth+1],
+      [1, displayWidth+1, displayWidth*2+1, displayWidth*3+1]
+  ]
+
+  function displayShape() {
+      displaySquares.forEach(square => {
+          square.classList.remove('block')
+      })
+      smallTetriminos[nextRandom].forEach(index => {
+          displaySquares[displayIndex + index].classList.add('block')
+      })
+  }
+
+  displayShape()
 })
