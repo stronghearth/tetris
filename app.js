@@ -5,6 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const height = 20
     let currentPosition = 4
 
+    function control(e) {
+        if(e.keyCode === 39) {
+            moveRight()
+        } else if (e.keyCode === 38) {
+            rotate()
+        } else if (e.keyCode === 37) {
+            moveLeft()
+        } else if (e.keyCode === 40) {
+            moveDown()
+        }
+    }
+    document.addEventListener('keyup', control)
 
     //The Tetrominoes
   const lTetromino = [
@@ -61,12 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
       })
   }
 
-  //move down tetrimino
+  //move down, left, right tetrimino
   function moveDown() {
       undraw()
       currentPosition = currentPosition += width
       draw()
-      freeze()
+      //freeze()
   }
 
   function moveRight() {
@@ -88,4 +100,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       draw()
   }
+
+  //rotate tetrimino
+  function rotate() {
+      undraw()
+      currentRotation ++
+      if(currentRotation === current.length) {
+          currentRotation = 0
+      }
+      current = theTetrominoes[random][currentRotation]
+      draw()
+  }
+
+  draw()
 })
