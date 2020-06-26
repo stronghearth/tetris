@@ -1,45 +1,45 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
     let squares = Array.from(grid.querySelectorAll('div'))
-    const GRID_WIDTH = 10 
+    const width = 10 
     const height = 20
     let currentPosition = 4
 
 
     //The Tetrominoes
   const lTetromino = [
-    [1, GRID_WIDTH + 1, GRID_WIDTH * 2 + 1, 2],
-    [GRID_WIDTH, GRID_WIDTH + 1, GRID_WIDTH + 2, GRID_WIDTH * 2 + 2],
-    [1, GRID_WIDTH + 1, GRID_WIDTH * 2 + 1, GRID_WIDTH * 2],
-    [GRID_WIDTH, GRID_WIDTH * 2, GRID_WIDTH * 2 + 1, GRID_WIDTH * 2 + 2]
+    [1, width + 1, width * 2 + 1, 2],
+    [width, width + 1, width + 2, width * 2 + 2],
+    [1, width + 1, width * 2 + 1, width * 2],
+    [width, width * 2, width * 2 + 1, width * 2 + 2]
   ]
 
   const zTetromino = [
-    [0, GRID_WIDTH, GRID_WIDTH + 1, GRID_WIDTH * 2 + 1],
-    [GRID_WIDTH + 1, GRID_WIDTH + 2, GRID_WIDTH * 2, GRID_WIDTH * 2 + 1],
-    [0, GRID_WIDTH, GRID_WIDTH + 1, GRID_WIDTH * 2 + 1],
-    [GRID_WIDTH + 1, GRID_WIDTH + 2, GRID_WIDTH * 2, GRID_WIDTH * 2 + 1]
+    [0, width, width + 1, width * 2 + 1],
+    [width + 1, width + 2, width * 2, width * 2 + 1],
+    [0, width, width + 1, width * 2 + 1],
+    [width + 1, width + 2, width * 2, width * 2 + 1]
   ]
 
   const tTetromino = [
-    [1, GRID_WIDTH, GRID_WIDTH + 1, GRID_WIDTH + 2],
-    [1, GRID_WIDTH + 1, GRID_WIDTH + 2, GRID_WIDTH * 2 + 1],
-    [GRID_WIDTH, GRID_WIDTH + 1, GRID_WIDTH + 2, GRID_WIDTH * 2 + 1],
-    [1, GRID_WIDTH, GRID_WIDTH + 1, GRID_WIDTH * 2 + 1]
+    [1, width, width + 1, width + 2],
+    [1, width + 1, width + 2, width * 2 + 1],
+    [width, width + 1, width + 2, width * 2 + 1],
+    [1, width, width + 1, width * 2 + 1]
   ]
 
   const oTetromino = [
-    [0, 1, GRID_WIDTH, GRID_WIDTH + 1],
-    [0, 1, GRID_WIDTH, GRID_WIDTH + 1],
-    [0, 1, GRID_WIDTH, GRID_WIDTH + 1],
-    [0, 1, GRID_WIDTH, GRID_WIDTH + 1]
+    [0, 1, width, width + 1],
+    [0, 1, width, width + 1],
+    [0, 1, width, width + 1],
+    [0, 1, width, width + 1]
   ]
 
   const iTetromino = [
-    [1, GRID_WIDTH + 1, GRID_WIDTH * 2 + 1, GRID_WIDTH * 3 + 1],
-    [GRID_WIDTH, GRID_WIDTH + 1, GRID_WIDTH + 2, GRID_WIDTH + 3],
-    [1, GRID_WIDTH + 1, GRID_WIDTH * 2 + 1, GRID_WIDTH * 3 + 1],
-    [GRID_WIDTH, GRID_WIDTH + 1, GRID_WIDTH + 2, GRID_WIDTH + 3]
+    [1, width + 1, width * 2 + 1, width * 3 + 1],
+    [width, width + 1, width + 2, width + 3],
+    [1, width + 1, width * 2 + 1, width * 3 + 1],
+    [width, width + 1, width + 2, width + 3]
   ]
 
   const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
@@ -49,9 +49,43 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentRotation = 0
   let current = theTetrominoes[random][currentRotation]
 
-  //move the Tetrimino down
+  function draw() {
+      current.forEach(index => {
+          squares[currentPosition + index].classList.add('block')
+      })
+  }
   
+  function undraw() {
+      current.forEach(index => {
+          squares[currentPosition + index].classList.remove('block')
+      })
+  }
 
+  //move down tetrimino
+  function moveDown() {
+      undraw()
+      currentPosition = currentPosition += width
+      draw()
+      freeze()
+  }
 
+  function moveRight() {
+      undraw()
+      const isAtRightEdge = current.some(index => (currentPosition + index) % width === width - 1)
+      if(!isAtRightEdge) currentPosition += 1
+      if(current.some(index => squares[currentPosition + index].classList.contains('block2'))) {
+          currentPosition -= 1
+      }
+      draw()
+  }
 
+  function moveLeft() {
+      undraw()
+      const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0)
+      if(!isAtLeftEdge) currentPosition -=1
+      if(current.some(index => squares[currentPosition + index].classList.contains('block2'))) {
+          currentPosition += 1
+      }
+      draw()
+  }
 })
