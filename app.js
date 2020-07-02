@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid')
+    const scoreDisplay = document.querySelector('.score-display')
+    const lineDisplay = document.querySelector('.lines-display')
     const displaySquares = document.querySelectorAll('.previous-grid div')
     const startBtn = document.querySelector('#start')
     let squares = Array.from(grid.querySelectorAll('div'))
@@ -7,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const height = 20
     let currentPosition = 4
     let timerId
+    let currentIndex = 0
+    let score = 0
+    let lines = 0
 
     function control(e) {
         if(e.keyCode === 39) {
@@ -149,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPosition = 4
         draw()
         displayShape()
+        gameOver()
     }
   }
 
@@ -163,4 +169,20 @@ document.addEventListener('DOMContentLoaded', () => {
           displayShape()
       }
   })
+
+  //game over
+  function gameOver () {
+      if(current.some(index=> squares[currentPosition + index].classList.contains('block2'))) {
+          scoreDisplay.innerHTML = "End"
+          clearInterval(timerId)
+      }
+  }
+
+  function addScore()
+      for (currentIndex = 0; currentIndex < 199; currentIndex += width) {
+          const row = 
+      }
+  }
+
+
 })
